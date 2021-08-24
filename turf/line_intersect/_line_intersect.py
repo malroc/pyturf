@@ -1,7 +1,10 @@
 from typing import Dict, Sequence, TypeVar, Union
 from collections import deque
 
-from rtree import index
+try:
+    from rtree import index
+except Exception:
+    index = None
 
 from turf.helpers import (
     Feature,
@@ -67,6 +70,9 @@ def spatial_filtering(line_1: Sequence, line_2: Sequence) -> Sequence:
     :param line_2: line_2 coordinates of segments
     :returns: list of line segments that possibly intersect with each other
     """
+    if not index:
+        raise ImportError('rtree or one of its dependencies not found')
+
     possible_intersects = []
     rtree_index = index.Index()
 
