@@ -63,8 +63,8 @@ def polygon_area(coords):
     if len(coords) > 0:
         total += abs(ring_area(coords[0]))
 
-    for i in coords[1:]:
-        total -= abs(ring_area(coords[i]))
+    for c in coords[1:]:
+        total -= abs(ring_area(c))
 
     return total
 
