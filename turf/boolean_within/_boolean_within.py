@@ -293,10 +293,15 @@ def is_poly_in_poly(feature_1: Sequence, feature_2: Sequence) -> bool:
     feature_1 = polygon_to_line(polygon(feature_1))
     line_coords = get_coords_from_features(feature_1)
 
-    for coords in line_coords:
-
-        if not boolean_point_in_polygon(coords, feature_2):
-            return False
+    if feature_1['geometry']['type'] == 'MultiLineString':
+        for line in line_coords:
+            for coords in line:
+                if not boolean_point_in_polygon(coords, feature_2):
+                    return False
+    else:
+        for coords in line_coords:
+            if not boolean_point_in_polygon(coords, feature_2):
+                return False
 
     return True
 
